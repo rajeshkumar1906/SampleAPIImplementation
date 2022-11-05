@@ -15,3 +15,10 @@ If once fetch the data from API, It will store the data into the database. Here 
 
 ## Architecture
 MVVM
+
+## The app has follwing packages
+
+1. api : Having api services and Retrofit end point.
+2. model: Having Viewmode and model information
+3. offline: Room db implementation
+4. repo: Fetching the data from online
