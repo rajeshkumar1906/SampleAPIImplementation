@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 
 
-class Utlity {
+class Utilities {
     companion object {
 
      fun isNetworkConnected(context: Context): Boolean {
