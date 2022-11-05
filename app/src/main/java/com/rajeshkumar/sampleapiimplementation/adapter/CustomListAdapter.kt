@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rajeshkumar.sampleapiimplementation.databinding.ListItemBinding
 import com.rajeshkumar.sampleapiimplementation.model.Root
 
-class CustomListAdapter(val items:List<Root>): RecyclerView.Adapter<CustomListAdapter.ViewHolder>() {
+class CustomListAdapter(private val items:List<Root>): RecyclerView.Adapter<CustomListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,7 +22,7 @@ class CustomListAdapter(val items:List<Root>): RecyclerView.Adapter<CustomListAd
        return items.size
     }
 
-    inner  class ViewHolder(val binding: ListItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner  class ViewHolder(private val binding: ListItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: Root) {
             binding.item = item
             binding.executePendingBindings()

@@ -22,11 +22,10 @@ class SyncData(val context: Context,val data: MutableLiveData<List<Root>>) {
         initData()
     }
 
-    fun initData() {
+    private fun initData() {
         var items: List<Root> = ArrayList(100)
         val apiService: ApiService = EndPoint.apiService()
         Log.e("SyncData", "<><>apiService<>${apiService.data}")
-        var count: Int = 0
         apiService.data
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
@@ -39,7 +38,6 @@ class SyncData(val context: Context,val data: MutableLiveData<List<Root>>) {
                     Log.e("SyncData", "<>onNext<>" + t[0].name)
                     data.postValue(t)
                     items = t
-                    count++
                 }
 
                 override fun onError(e: Throwable) {

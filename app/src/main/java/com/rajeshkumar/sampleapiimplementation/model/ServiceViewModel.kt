@@ -13,25 +13,20 @@ import javax.inject.Inject
 @HiltViewModel
 class ServiceViewModel @Inject constructor(application: Application) : ViewModel(),
     LifecycleObserver {
-    val mutableLiveData = MutableLiveData<List<Root>>()
-    val application1: Application = application
+    private val mutableLiveData = MutableLiveData<List<Root>>()
+    private val application1: Application = application
     fun getData(): LiveData<List<Root>> {
         loadData()
         return mutableLiveData
     }
 
-    fun loadData(): LiveData<List<Root>> {
+    private fun loadData(): LiveData<List<Root>> {
         LoadDataRepo(application1.applicationContext, mutableLiveData)
         return mutableLiveData
     }
 
-    fun updateUI(): LiveData<List<Root>> {
-
-        return mutableLiveData
-    }
-
     @SuppressLint("InvalidPeriodicWorkRequestInterval")
-    fun initiateBackGroundTask(lifecycleOwner: LifecycleOwner) {
+    fun initiateBackGroundTask() {
         val constraints: Constraints = Constraints.Builder()
             .setRequiresCharging(true)
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -42,20 +37,8 @@ class ServiceViewModel @Inject constructor(application: Application) : ViewModel
         )
             .setConstraints(constraints)
             .build()
-       val workManager:WorkManager =  WorkManager.getInstance()
+        val workManager: WorkManager = WorkManager.getInstance()
         workManager.enqueue(workRequest)
-
-//        workManager.getWorkInfoByIdLiveData(workRequest.id)
-//            .observe(lifecycleOwner, Observer { workStatus: WorkInfo ->
-//                Log.e("ServiceViewModel","<>workStatus "+workStatus.state)
-//                Log.e("ServiceViewModel","<>workStatus "+workStatus.outputData.keyValueMap)
-//                if (workStatus.state == WorkInfo.State.SUCCEEDED) {
-//                    val mutableLiveData:MutableLiveData<Root> = workStatus.outputData.keyValueMap.get("data") as MutableLiveData<Root>
-//                    Log.e("ServiceViewModel","<>mutableLiveData<>"+mutableLiveData)
-//                //                    val arrayItems:Array<String> = workStatus.outputData.getStringArray("number") as Array<String>
-////                    val items:List<String> = arrayItems.asList()
-//                }
-//            })
     }
 
 }
