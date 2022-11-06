@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.rajeshkumar.sampleapiimplementation.model.Root
 import com.rajeshkumar.sampleapiimplementation.offline.AppDataBase
 import com.rajeshkumar.sampleapiimplementation.offline.DataDAO
 import com.rajeshkumar.sampleapiimplementation.offline.DataEntity
@@ -21,22 +22,27 @@ class OfflineRepoTestCase: TestCase() {
 
 
    @Before
-   public fun setup(){
+    fun setup(){
        val context = ApplicationProvider.getApplicationContext<Context>()
        database = Room.inMemoryDatabaseBuilder(context,AppDataBase::class.java).build()
        dao = database.todoData()
    }
 
     @After
-    public fun close(){
+     fun close(){
         database.close()
     }
 
     @Test
-    public fun writeDatabase() = runBlocking {
+     fun writeDatabase() = runBlocking {
         val data = DataEntity(1,"Rajesh kumar","rajeshk.chelluri@gamil.com")
         dao.insertData(data)
         val getAllData = dao.getAllData()
-//        assertThat(getAllData.contains(data)).isTrue()
+        val root = Root().apply {
+            id = data.id
+            name = data.name
+            email = data.email
+        }
+        assert(getAllData.contains(root))
     }
 }
