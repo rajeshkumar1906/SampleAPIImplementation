@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "DataEntity")
 data class DataEntity(@PrimaryKey(autoGenerate = true) var id:Int,
-                      @ColumnInfo(name = "name") var name:String,
-            @ColumnInfo(name = "email") var email:String)
+                      @ColumnInfo(name = "name") var name:String?,
+            @ColumnInfo(name = "email") var email:String?)
