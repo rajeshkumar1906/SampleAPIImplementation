@@ -26,6 +26,6 @@ MVVM
 
 ## Test Cases:
 1. Api validation
-2. Data insertion in DB
+2. Data updating and validation in DB
 3. UI validation
-4. Adapter Testion
+4. Adapter Testing
