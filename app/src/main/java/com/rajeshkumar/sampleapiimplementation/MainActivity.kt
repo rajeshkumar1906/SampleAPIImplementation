@@ -1,6 +1,5 @@
 package com.rajeshkumar.sampleapiimplementation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData {
     private val serviceViewModel: ServiceViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
 
-    @SuppressLint("InvalidPeriodicWorkRequestInterval")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
