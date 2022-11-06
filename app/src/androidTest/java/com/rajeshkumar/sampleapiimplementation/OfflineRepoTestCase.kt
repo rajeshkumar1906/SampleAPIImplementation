@@ -10,7 +10,6 @@ import com.rajeshkumar.sampleapiimplementation.offline.DataEntity
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
