@@ -12,6 +12,7 @@ If once fetch the data from API, It will store the data into the database. Here 
 3. WorkManager
 4. Hilt
 5. Retrofit
+6. Espresso
 
 ## Architecture
 MVVM
@@ -22,3 +23,9 @@ MVVM
 2. model: Having Viewmode and model information
 3. offline: Room db implementation
 4. repo: Fetching the data from online
+
+## Test Cases:
+1. Api validation
+2. Data insertion in DB
+3. UI validation
+4. Adapter Testion
