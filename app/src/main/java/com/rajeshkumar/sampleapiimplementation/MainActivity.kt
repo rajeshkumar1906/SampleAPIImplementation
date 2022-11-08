@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rajeshkumar.sampleapiimplementation.adapter.CustomListAdapter
+import com.rajeshkumar.sampleapiimplementation.databinding.ActivityMainBinding
 import com.rajeshkumar.sampleapiimplementation.model.Root
 import com.rajeshkumar.sampleapiimplementation.model.ServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,25 +22,25 @@ class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData {
     }
 
     private val serviceViewModel: ServiceViewModel by viewModels()
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: ActivityMainBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        recyclerView = findViewById(R.id.recycler_view)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         activity = this
         serviceViewModel.initiateBackGroundTask()
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val observer: Observer<List<Root>> = Observer { t ->
-            recyclerView.adapter = CustomListAdapter(t)
+            binding.recyclerView.adapter = CustomListAdapter(t)
         }
         serviceViewModel.getData().observe(this, observer)
     }
 
     override fun syncData(mutableLiveData: MutableLiveData<List<Root>>) {
         val observer: Observer<List<Root>> = Observer { t ->
-            recyclerView.adapter = CustomListAdapter(t)
+            binding.recyclerView.adapter = CustomListAdapter(t)
 
         }
         Handler(Looper.getMainLooper()).post {
