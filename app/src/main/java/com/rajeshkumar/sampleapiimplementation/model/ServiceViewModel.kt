@@ -32,7 +32,7 @@ class ServiceViewModel @Inject constructor(application: Application) : ViewModel
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
         val workRequest: WorkRequest = PeriodicWorkRequest.Builder(
-            RandomWorker::class.java, 1,
+            RandomWorker::class.java, 5,
             TimeUnit.SECONDS
         )
             .setConstraints(constraints)
