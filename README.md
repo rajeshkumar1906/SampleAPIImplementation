@@ -13,6 +13,8 @@ If once fetch the data from API, It will store the data into the database. Here 
 4. Hilt
 5. Retrofit
 6. Espresso
+7. View Binding
+8. Data Binding
 
 ## Architecture
 MVVM
