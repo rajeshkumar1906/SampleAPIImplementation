@@ -15,6 +15,7 @@ class ServiceViewModel @Inject constructor(application: Application) : ViewModel
     LifecycleObserver {
     private val mutableLiveData = MutableLiveData<List<Root>>()
     private val application1: Application = application
+
     fun getData(): LiveData<List<Root>> {
         loadData()
         return mutableLiveData
@@ -37,8 +38,7 @@ class ServiceViewModel @Inject constructor(application: Application) : ViewModel
         )
             .setConstraints(constraints)
             .build()
-        val workManager: WorkManager = WorkManager.getInstance()
-        workManager.enqueue(workRequest)
+        WorkManager.getInstance(application1.applicationContext).enqueue(workRequest)
     }
 
 }

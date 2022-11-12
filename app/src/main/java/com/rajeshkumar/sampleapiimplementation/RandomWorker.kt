@@ -6,13 +6,17 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.MutableLiveData
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.rajeshkumar.sampleapiimplementation.model.Root
 import com.rajeshkumar.sampleapiimplementation.repo.SyncData
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-open class RandomWorker(open val context: Context, workerParams: WorkerParameters) :
+@HiltWorker
+open class RandomWorker @AssistedInject constructor(@Assisted open val context: Context, @Assisted workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
     open val mutableLiveData = MutableLiveData<List<Root>>()
 

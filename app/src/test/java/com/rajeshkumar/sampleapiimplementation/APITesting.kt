@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import com.google.common.truth.Truth.assertThat
 
 @RunWith(JUnit4::class)
 class APITesting {
@@ -17,9 +18,11 @@ class APITesting {
         val items:Observable<List<Root>> = apiService.data
         try{
             val response: Observable<List<Root>>? = items.distinct()
-            assert(response?.isEmpty!!.blockingGet())
+            assertThat(response.toString()).isNotEmpty()
         } catch (ex: Exception){
             ex.printStackTrace()
         }
+
+
     }
 }
