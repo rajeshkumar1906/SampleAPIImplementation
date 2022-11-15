@@ -1,5 +1,6 @@
 package com.rajeshkumar.sampleapiimplementation
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,7 +17,7 @@ import com.rajeshkumar.sampleapiimplementation.model.ServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData {
+class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData,CustomListAdapter.OnItemClickListener {
     companion object {
         lateinit var activity: MainActivity
     }
@@ -47,6 +48,11 @@ class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData {
             mutableLiveData.observe(this, observer)
         }
 
+    }
+
+    override fun itemOnClick() {
+        val intent = Intent(this,ActivityTwo::class.java)
+        startActivity(intent)
     }
 }
 

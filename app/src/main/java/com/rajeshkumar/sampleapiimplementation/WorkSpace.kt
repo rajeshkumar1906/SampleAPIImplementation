@@ -18,4 +18,17 @@ object ValidationVerification{
         return true
 
     }
+
+    interface StudentService{
+        fun getTotalMarks(): Int
+        fun getNumberOfStudents():Int
+    }
+
+    class Student(studentService: StudentService){
+        var studentService: StudentService = studentService
+
+        fun getAverageMarks():Int{
+            return studentService.getTotalMarks()/studentService.getNumberOfStudents()
+        }
+    }
 }
