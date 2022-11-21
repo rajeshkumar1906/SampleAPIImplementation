@@ -33,10 +33,8 @@ class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData,CustomListAda
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         activity = this
-//        setContent {
-//           val viewModel: HiltViewModel<>(Ser)
-//        }
-        serviceViewModel.initiateBackGroundTask()
+
+        serviceViewModel.initiateBackGroundTask(this)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val observer: Observer<List<Root>> = Observer { t ->
             binding.recyclerView.adapter = CustomListAdapter(t)

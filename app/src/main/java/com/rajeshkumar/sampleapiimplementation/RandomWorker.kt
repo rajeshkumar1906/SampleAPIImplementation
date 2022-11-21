@@ -24,15 +24,15 @@ open class RandomWorker @AssistedInject constructor(@Assisted open val context: 
     override suspend fun doWork(): Result {
         try {
 
-            SyncData(context, mutableLiveData)
+//            SyncData(context, mutableLiveData)
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(applicationContext, "syncing data ", Toast.LENGTH_LONG)
                     .show()
             }
             try {
                 Log.e("MainActivity instance", "<><>" + MainActivity.activity)
-                val syncData: SetSyncData = MainActivity.activity
-                syncData.syncData(mutableLiveData)
+//                val syncData: SetSyncData = MainActivity.activity
+//                syncData.syncData(mutableLiveData)
 
 
             } catch (e: Exception) {

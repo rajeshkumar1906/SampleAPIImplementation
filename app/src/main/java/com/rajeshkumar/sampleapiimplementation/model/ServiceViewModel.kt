@@ -1,10 +1,13 @@
 package com.rajeshkumar.sampleapiimplementation.model
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.util.Log
+import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.lifecycle.*
 import androidx.work.*
+import com.rajeshkumar.sampleapiimplementation.MainActivity
 import com.rajeshkumar.sampleapiimplementation.RandomWorker
 import com.rajeshkumar.sampleapiimplementation.di.NetworkConnectionModule
 import com.rajeshkumar.sampleapiimplementation.di.OfflineRepoModule
@@ -18,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
@@ -48,7 +52,7 @@ class ServiceViewModel @Inject constructor(
     }
 
     @SuppressLint("InvalidPeriodicWorkRequestInterval")
-    fun initiateBackGroundTask() {
+    fun initiateBackGroundTask(activity: Activity) {
         val constraints: Constraints = Constraints.Builder()
             .setRequiresCharging(true)
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -59,7 +63,39 @@ class ServiceViewModel @Inject constructor(
         )
             .setConstraints(constraints)
             .build()
-        WorkManager.getInstance(application1.applicationContext).enqueue(workRequest)
+       val workManager: WorkManager =  WorkManager.getInstance(application1.applicationContext)
+        workManager.enqueue(workRequest)
+//        workManager.getWorkInfoByIdLiveData(workRequest.id)
+        workManager.getWorkInfoByIdLiveData(workRequest.id)
+            .observe(activity as MainActivity, Observer<WorkInfo?> { workInfo ->
+                if (workInfo != null) {
+                    Log.d("ServiceViewModle", "WorkInfo received: state: " + workInfo.state)
+
+//                    val message = workInfo.outputData.getString(ServerRequestsWorker.KEY_MESSAGE)
+//                    Log.d("ServiceViewModle", "message: $message")
+                }
+            })
+
+
+
+//        .observe(activity as MainActivity, Observer {
+//              workInfo ->
+//                workInfo?.run {
+//
+//                    Log.e("ServiceViewModle","<>workinfo state<>"+workInfo.state)
+////                    apiImplementation()
+//
+////                    if (workInfo.state.isFinished) {
+////                        Log.e("Service View model ","<>work info finished")
+////                        apiImplementation()
+////                    } else {
+////                        Log.e("Service View model ","<>work info not finished")
+////                    }
+//
+////                    apiImplementation()
+//                }
+//
+//            })
     }
 
     private fun apiImplementation() {
