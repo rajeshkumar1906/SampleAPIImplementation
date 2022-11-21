@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,7 @@ import com.rajeshkumar.sampleapiimplementation.databinding.ActivityMainBinding
 import com.rajeshkumar.sampleapiimplementation.model.Root
 import com.rajeshkumar.sampleapiimplementation.model.ServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData,CustomListAdapter.OnItemClickListener {
@@ -31,6 +33,9 @@ class MainActivity : AppCompatActivity(), RandomWorker.SetSyncData,CustomListAda
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         activity = this
+//        setContent {
+//           val viewModel: HiltViewModel<>(Ser)
+//        }
         serviceViewModel.initiateBackGroundTask()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val observer: Observer<List<Root>> = Observer { t ->

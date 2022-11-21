@@ -6,12 +6,14 @@ package com.rajeshkumar.sampleapiimplementation
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -22,8 +24,8 @@ import org.junit.Test
 
 class UITestCases {
 
-    @Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java,true,true)
+    @get:Rule
+   public val activityRule = ActivityTestRule(MainActivity::class.java,true,true)
 
     @Test
     fun recyclerViewVisible(){
@@ -66,6 +68,15 @@ class UITestCases {
                     )
                 )
             )
+    }
+
+    @Test
+    fun testItemVerification(){
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(2,click()))
+
+        val name = "Mohini Singh"
+        Espresso.onView(withText(name)).check(matches(isDisplayed()))
     }
 
     private fun withViewAtPosition(position: Int, itemMatcher: Matcher<View?>): Matcher<View?>? {
