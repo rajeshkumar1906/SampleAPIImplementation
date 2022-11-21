@@ -64,16 +64,16 @@ class OnlineMode(val liveData: MutableLiveData<List<Root>>) {
 //    }
 
 
-    fun syncData(it: List<Root>) {
-        try {
-            val repo: DataDAO = AppDataBase.getInstance(mContext).todoData()
-            for (i in 1 until it.size) {
-                Log.e("Worker", "<>data inserted")
-                repo.insertData(DataEntity(i, it[i].name, it[i].email))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+//    fun syncData(it: List<Root>) {
+//        try {
+//            val repo: DataDAO = AppDataBase.getInstance(mContext).todoData()
+//            for (i in 1 until it.size) {
+//                Log.e("Worker", "<>data inserted")
+//                repo.insertData(DataEntity(i, it[i].name, it[i].email))
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 }
 

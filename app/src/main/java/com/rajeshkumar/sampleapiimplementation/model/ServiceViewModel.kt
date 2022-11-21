@@ -2,12 +2,16 @@ package com.rajeshkumar.sampleapiimplementation.model
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.*
 import com.rajeshkumar.sampleapiimplementation.RandomWorker
 import com.rajeshkumar.sampleapiimplementation.di.NetworkConnectionModule
+import com.rajeshkumar.sampleapiimplementation.di.OfflineRepoModule
 import com.rajeshkumar.sampleapiimplementation.di.RepositoryModule
-import com.rajeshkumar.sampleapiimplementation.repo.LoadDataRepo
+import com.rajeshkumar.sampleapiimplementation.offline.DataDAO
+import com.rajeshkumar.sampleapiimplementation.offline.DataEntity
+import com.rajeshkumar.sampleapiimplementation.repo.OfflineRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import kotlinx.coroutines.Dispatchers
@@ -19,27 +23,27 @@ import javax.inject.Inject
 class ServiceViewModel @Inject constructor(
     application: Application,
     private val repositoryModule: RepositoryModule,
-    private val networkConnectionModule: NetworkConnectionModule
+    private val networkConnectionModule: NetworkConnectionModule,
+    private val offlineRepoModule: OfflineRepoModule
 
 ) : ViewModel(),
     LifecycleObserver {
     private val mutableLiveData = MutableLiveData<List<Root>>()
     private val application1: Application = application
+    private var mOfflineRepo: DataDAO = offlineRepoModule.getAppDB().todoData()
 
-    //    init {
-//        repositoryModule.getApi()
-//    }
+
     fun getData(): LiveData<List<Root>> {
-//        loadData()
         if (networkConnectionModule.isNetworkNetworkConnected())
             apiImplementation()
         else
-         loadData()
+            getDataFromDB()
         return mutableLiveData
     }
 
     private fun loadData(): LiveData<List<Root>> {
-        LoadDataRepo(application1.applicationContext, mutableLiveData)
+//        LoadDataRepo(application1.applicationContext, mutableLiveData)
+        OfflineRepo(application1, mutableLiveData, offlineRepoModule).initData()
         return mutableLiveData
     }
 
@@ -65,37 +69,32 @@ class ServiceViewModel @Inject constructor(
             apiService.subscribe { result ->
                 run {
                     mutableLiveData.postValue(result)
+                    syncData(result)
                 }
 
             }
-//            apiService.data
-//                        ?.subscribeOn(Schedulers.io())
-//            ?.observeOn(AndroidSchedulers.mainThread())
-
-//                .subscribe()
-//            ?.subscribe(object : Observer<List<Root>> {
-//                override fun onSubscribe(d: Disposable) {
-//                    Log.e("ServiceViewModel", "<>onSubscribe<>")
-//                }
-//
-//                override fun onNext(t: List<Root>) {
-//                    Log.e("ServiceViewModel", "<>onNext<>" + t.size)
-//                    liveData.postValue(t)
-//                }
-//
-//                override fun onError(e: Throwable) {
-//                    Log.e("ServiceViewModel", "<>onError<>" + e.message)
-//                }
-//
-//                override fun onComplete() {
-//                    Log.e("ServiceViewModel", "<>onComplete<>")
-//                    syncData(items)
-//                }
-//
-//            })
-//    }
 
         }
+    }
+
+    private fun getDataFromDB() {
+        viewModelScope.launch(Dispatchers.Default) {
+//            val repo: DataDAO = offlineRepoModule.getAppDB().todoData()
+            mutableLiveData.postValue(mOfflineRepo.getAllData())
+        }
+    }
+
+    private fun syncData(it: List<Root>) {
+        try {
+//            val repo: DataDAO = offlineRepoModule.getAppDB().todoData()
+            for (i in 1 until it.size) {
+                Log.e("Worker", "<>data inserted")
+                mOfflineRepo.insertData(DataEntity(i, it[i].name, it[i].email))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
 }

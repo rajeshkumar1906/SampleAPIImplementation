@@ -46,22 +46,22 @@ class SyncData(val context: Context,val data: MutableLiveData<List<Root>>) {
 
                 override fun onComplete() {
                     Log.e("SyncData", "<>onComplete<>")
-                    syncData(items)
+//                    syncData(items)
                 }
 
             })
     }
 
-    fun syncData(it: List<Root>) {
-        try {
-            val repo: DataDAO = AppDataBase.getInstance(context).todoData()
-            for (i in 1 until it.size) {
-                Log.e("Worker", "<>data inserted")
-                repo.insertData(DataEntity(i, it[i].name, it[i].email))
-            }
-        } catch (e: Exception){
-            e.printStackTrace()
-        }
-
-    }
+//    fun syncData(it: List<Root>) {
+//        try {
+//            val repo: DataDAO = AppDataBase.getInstance(context).todoData()
+//            for (i in 1 until it.size) {
+//                Log.e("Worker", "<>data inserted")
+//                repo.insertData(DataEntity(i, it[i].name, it[i].email))
+//            }
+//        } catch (e: Exception){
+//            e.printStackTrace()
+//        }
+//
+//    }
 }

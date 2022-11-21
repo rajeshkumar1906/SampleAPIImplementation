@@ -4,17 +4,18 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.rajeshkumar.sampleapiimplementation.Utilities
 import com.rajeshkumar.sampleapiimplementation.model.Root
+import com.rajeshkumar.sampleapiimplementation.offline.AppDataBase
 
 class LoadDataRepo(val context: Context,val mutableLiveData: MutableLiveData<List<Root>>) {
     init {
         getData()
     }
     private fun getData(){
-        if(Utilities.isNetworkConnected(context)){
-            loadOnlineData()
-        } else {
+//        if(Utilities.isNetworkConnected(context)){
+//            loadOnlineData()
+//        } else {
             loadOfflineData()
-        }
+//        }
     }
 
     private fun loadOnlineData(){
@@ -22,6 +23,6 @@ class LoadDataRepo(val context: Context,val mutableLiveData: MutableLiveData<Lis
     }
 
     private fun loadOfflineData(){
-       OfflineRepo(context,mutableLiveData)
+//       OfflineRepo(context,mutableLiveData).initData()
     }
 }
